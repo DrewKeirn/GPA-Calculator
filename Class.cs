@@ -179,7 +179,7 @@ namespace WindowsFormsApp1
         {
             if (Name.Length < 7)
             {
-                return Name + ":\t\t" + Grade + "\t     " + Credit;
+                return Name + ":\t\t" + Grade + "\t       " + Credit;
             }
 
             if (Name.Length > 7)
