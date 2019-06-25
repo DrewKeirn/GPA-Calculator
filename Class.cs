@@ -3,11 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Formatters.Binary;
 
 namespace WindowsFormsApp1
 {
-    public class Class
+    [Serializable()]
+    public class Class : ISerializable
     {
+        
         private double Points { get; set; }
         private int Credit { get; set; }
         private string Name { get; set; }
@@ -195,5 +199,22 @@ namespace WindowsFormsApp1
             return Name + ":\t\t" +  Grade + "\t" + Credit;
         }
 
+        public void GetObjectData(SerializationInfo info,
+            StreamingContext context)
+        {
+            info.AddValue("Points", Points);
+            info.AddValue("Credit", Credit);
+            info.AddValue("Name", Name);
+            info.AddValue("Grade", Grade);
+        }
+        /*
+        public ClassDeserialize(SerializationInfo info, StreamingContext context)
+        {
+            Points = (int)info.GetValue("Points", typeof(int));
+            Credit = (int)info.GetValue("Credit", typeof(int));
+            Name = (string)info.GetValue("Name", typeof(string));
+            Grade = (string)info.GetValue("Grade", typeof(string));
+        }
+        */
     }
 }

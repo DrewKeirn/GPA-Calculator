@@ -7,7 +7,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-
+using System.Runtime.Serialization.Formatters.Binary;
+using System.Xml.Serialization;
+using System.IO;
 
 namespace WindowsFormsApp1
 {
@@ -37,6 +39,7 @@ namespace WindowsFormsApp1
             updateButton.Enabled = false;
             updateButton.Visible = false;
             GPA = 0.0;
+//            int count = 0;
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -89,9 +92,12 @@ namespace WindowsFormsApp1
                 Class newClass = new Class(name, gradeBox.Text, int.Parse(creditBox.Text));
                 Credits += newClass.getCredit();
                 Points += newClass.getPoints() * newClass.getCredit();
+ //               Yeet(newClass);
+ //               count++;
+
 
                 update();
-                classList.Items.Add(newClass);
+ //               classList.Items.Add(newClass);
              } catch {
                 return;
             }
@@ -236,6 +242,21 @@ namespace WindowsFormsApp1
             clear();
         }
 
+        public void Yeet(Class newClass)
+        {
+            classList.Items.Add(newClass);
+            Stream stream = File.Open("ClassData.dat", FileMode.Create);
+            BinaryFormatter bf = new BinaryFormatter();
+            bf.Serialize(stream, newClass);
+            stream.Close();
+            
+            newClass = null;
+            stream = File.Open("ClassData.dat", FileMode.Open);
+            bf = new BinaryFormatter();
+            newClass = (Class)bf.Deserialize(stream);
+            stream.Close();
+        }
+        
         private void emptyButton_Click(object sender, EventArgs e)
         {
             Points = 0;
